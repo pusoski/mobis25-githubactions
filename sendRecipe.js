@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const admin = require('firebase-admin');
 
 // Initialize Firebase Admin with the service account key
