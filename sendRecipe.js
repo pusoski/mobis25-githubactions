@@ -15,6 +15,7 @@ async function fetchRecipe() {
     title: meal.strMeal,
     instructions: meal.strInstructions,
     image: meal.strMealThumb,
+    idMeal: meal.idMeal,
   };
 }
 
@@ -26,6 +27,7 @@ async function sendNotification(recipe) {
       title: recipe.title,
       body: recipe.instructions.substring(0, 100) + '...', // short snippet
       image: recipe.image,
+      idMeal: recipe.idMeal, // <-- add this
       recipe: JSON.stringify(recipe), // full recipe data
     },
   };
