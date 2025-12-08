@@ -1,6 +1,5 @@
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin with the service account key
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
 
 admin.initializeApp({
@@ -20,15 +19,32 @@ async function fetchRecipe() {
 }
 
 async function sendNotification(recipe) {
-  // Send data-only message
+  const snippet = recipe.instructions.substring(0, 100) + '...';
+
   const message = {
-    topic: 'all', // send to all devices subscribed to 'all'
+    topic: 'all',
+
+    notification: {
+      title: recipe.title,
+      body: snippet,
+    },
+
     data: {
       title: recipe.title,
-      body: recipe.instructions.substring(0, 100) + '...', // short snippet
+      body: snippet,
       image: recipe.image,
-      idMeal: recipe.idMeal, // <-- add this
-      recipe: JSON.stringify(recipe), // full recipe data
+      idMeal: recipe.idMeal,
+      recipe: JSON.stringify(recipe),
+    },
+
+    android: {
+      priority: 'high',
+      notification: {
+        channelId: 'high_importance_channel',
+        priority: 'max',
+        defaultSound: true,
+        imageUrl: recipe.image,
+      },
     },
   };
 
